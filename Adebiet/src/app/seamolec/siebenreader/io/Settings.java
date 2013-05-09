@@ -1,12 +1,16 @@
 package app.seamolec.siebenreader.io;
 
-public class Settings {
+import java.io.Serializable;
+
+public class Settings implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int fontSize;
 	private int bgColor;
 	
 	public Settings(){
 		fontSize = 3;
-		bgColor = 0xff0000ff;
+		bgColor = 0xFFFFFFFF;
 	}
 
 	public int getFontSize() {

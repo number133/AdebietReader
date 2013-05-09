@@ -1,11 +1,19 @@
 package app.seamolec.siebenreader.view;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import nl.siegmann.epublib.domain.Book;
+import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Spine;
 import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.epub.EpubReader;
@@ -68,6 +76,8 @@ public class EpubViewerActivity extends Activity {
 			if (savedInstanceState != null) {
 				mWebView.restoreState(savedInstanceState);
 			} else {
+//				changeDoc(epubVersion
+//						+ spine.getResource(currrentPage).getHref());
 				mWebView.loadUrl("file:///" + epubVersion
 						+ spine.getResource(currrentPage).getHref());
 			}
@@ -150,6 +160,8 @@ public class EpubViewerActivity extends Activity {
 
 						if (count < maxPage) {
 							count++;
+							changeDoc(epubVersion
+									+ spine.getResource(currrentPage + count).getHref());
 							mWebView.loadUrl("file:///"
 									+ epubVersion
 									+ spine.getResource(currrentPage + count)
@@ -174,6 +186,8 @@ public class EpubViewerActivity extends Activity {
 
 						if (count > 0) {
 							count--;
+							changeDoc(epubVersion
+									+ spine.getResource(currrentPage + count).getHref());
 							mWebView.loadUrl("file:///"
 									+ epubVersion
 									+ File.separator
@@ -201,6 +215,37 @@ public class EpubViewerActivity extends Activity {
 		super.onResume();
 		if (storageHelper != null) {
 			mWebView.update(storageHelper.readSettings());
+		}
+	}
+
+	private void changeDoc(String in) {
+		Document doc;
+		try {
+			File input = new File(in); 
+			doc = Jsoup.parse(input, "UTF-8");
+			Log.i("changeDoc", "parsing doc: " + in);
+			Elements styles = doc.select("style");
+			if (styles.size() == 0) {
+				for(Element e: styles){
+				    e.remove();
+				}
+				Log.i("changeDoc", "remove atrr style");
+			}
+			Elements body = doc.select("body");
+			body.attr("style", " font-family: ‘American Typewriter’, ‘Courier New’, Courier, Monaco, mono; color: red;");
+			Log.i("changeDoc", "set bg color");
+			
+				FileWriter fileWriter;
+				fileWriter = new FileWriter(in);
+				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+				bufferedWriter.write(doc.toString());
+				Log.i("changeDoc", doc.toString());
+				bufferedWriter.close();
+				Log.i("changeDoc", "wrote to file: " + in);
+//			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

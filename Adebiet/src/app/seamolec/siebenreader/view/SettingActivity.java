@@ -22,6 +22,7 @@ public class SettingActivity extends Activity {
 	private TextView fontSizeNameTextView = null;
 	private Settings appSettings;
 	private Button colorButton = null;
+	private Button colorViewButton = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class SettingActivity extends Activity {
 	}
 
 	private void initColor() {
+		colorViewButton = (Button) findViewById(R.id.colorViewButton);
+		colorViewButton.setBackgroundColor(appSettings.getBgColor());
 		colorButton = (Button) findViewById(R.id.colorButton);
 		colorButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -118,6 +121,7 @@ public class SettingActivity extends Activity {
 	 
 	            public void onOk(AmbilWarnaDialog dialog, int color) {
 	            	appSettings.setBgColor(color);
+	            	colorViewButton.setBackgroundColor(color);
 	            	storageHelper.writeSettings(appSettings);
 	            }
 	        });
