@@ -12,14 +12,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" 
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/fontSizeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Қаріп өлшемі" />
+            android:text="@string/font_size" />
 
         <SeekBar
             android:id="@+id/fontSizeSeekBar"
@@ -35,29 +35,77 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/bgColorTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="Фон түсі" />
+            android:text="@string/background_color" />
 
         <Button
-            android:id="@+id/colorViewButton"
+            android:id="@+id/bgColorViewButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clickable="false" />
 
         <Button
-            android:id="@+id/colorButton"
+            android:id="@+id/bgColorButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="Түс таңдау" />
+            android:text="@string/select_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/fontColorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/font_color" />
+
+        <Button
+            android:id="@+id/fontColorViewButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false" />
+
+        <Button
+            android:id="@+id/fontColorButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/select_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+        
+        <TextView
+            android:id="@+id/fontFamilyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/font_family" />
+
+        <Spinner
+            android:id="@+id/fontFamilySpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>

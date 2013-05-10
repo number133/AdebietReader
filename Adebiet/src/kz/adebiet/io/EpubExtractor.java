@@ -1,4 +1,4 @@
-package app.seamolec.siebenreader.io;
+package kz.adebiet.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -1,12 +1,13 @@
-package app.seamolec.siebenreader.parser;
+package kz.adebiet.parser;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import kz.adebiet.util.Utils;
+
 import nl.siegmann.epublib.domain.TOCReference;
 import android.util.Log;
-import app.seamolec.siebenreader.io.Utils;
 
 public class EpubScanner {
 

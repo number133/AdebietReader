@@ -1,5 +1,6 @@
-package app.seamolec.siebenreader;
+package kz.adebiet;
 
+import kz.adebiet.view.DashboardActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -11,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.TableLayout;
-import app.seamolec.siebenreader.view.DashboardActivity;
+import app.seamolec.siebenreader.R;
 
 public class SplashScreenActivity extends Activity {
 

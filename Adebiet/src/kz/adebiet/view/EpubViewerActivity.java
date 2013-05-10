@@ -1,4 +1,4 @@
-package app.seamolec.siebenreader.view;
+package kz.adebiet.view;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,6 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import kz.adebiet.parser.EpubScanner;
+import kz.adebiet.setting.Settings;
+import kz.adebiet.setting.StorageHelper;
+import kz.adebiet.util.Utils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,9 +38,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import app.seamolec.siebenreader.R;
-import app.seamolec.siebenreader.io.StorageHelper;
-import app.seamolec.siebenreader.io.Utils;
-import app.seamolec.siebenreader.parser.EpubScanner;
 
 public class EpubViewerActivity extends Activity {
 
@@ -47,6 +49,7 @@ public class EpubViewerActivity extends Activity {
 	private String epubVersion;
 	private int currrentPage, maxPage;
 	private StorageHelper storageHelper = null;
+	private String bodyStyle = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,17 +76,17 @@ public class EpubViewerActivity extends Activity {
 
 			epubVersion = epubScan.getEpubVersion();
 
+			storageHelper = new StorageHelper(this);
+			mWebView.update(storageHelper.readSettings());
+
 			if (savedInstanceState != null) {
 				mWebView.restoreState(savedInstanceState);
 			} else {
-//				changeDoc(epubVersion
-//						+ spine.getResource(currrentPage).getHref());
+				// changeDoc(epubVersion
+				// + spine.getResource(currrentPage).getHref());
 				mWebView.loadUrl("file:///" + epubVersion
 						+ spine.getResource(currrentPage).getHref());
 			}
-
-			storageHelper = new StorageHelper(this);
-			mWebView.update(storageHelper.readSettings());
 
 			setContentView(mWebView.getLayout());
 
@@ -160,17 +163,19 @@ public class EpubViewerActivity extends Activity {
 
 						if (count < maxPage) {
 							count++;
+							currrentPage++;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage + count).getHref());
+									+ spine.getResource(currrentPage)
+											.getHref());
 							mWebView.loadUrl("file:///"
 									+ epubVersion
-									+ spine.getResource(currrentPage + count)
+									+ spine.getResource(currrentPage)
 											.getHref());
 							setContentView(mWebView.getLayout());
-
+							
 							Log.i("buka halaman kanan : "
-									+ (currrentPage + count), spine
-									.getResource(currrentPage + count)
+									+ (currrentPage), spine
+									.getResource(currrentPage)
 									.getHref());
 						}
 						return true;
@@ -186,18 +191,19 @@ public class EpubViewerActivity extends Activity {
 
 						if (count > 0) {
 							count--;
+							currrentPage--;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage + count).getHref());
+									+ spine.getResource(currrentPage)
+											.getHref());
 							mWebView.loadUrl("file:///"
 									+ epubVersion
 									+ File.separator
-									+ spine.getResource(currrentPage + count)
+									+ spine.getResource(currrentPage)
 											.getHref());
-							setContentView(mWebView.getLayout());
-
+							setContentView(mWebView.getLayout());							
 							Log.i("buka halaman kiri : "
-									+ (currrentPage + count), spine
-									.getResource(currrentPage + count)
+									+ (currrentPage), spine
+									.getResource(currrentPage)
 									.getHref());
 						}
 						return true;
@@ -216,33 +222,48 @@ public class EpubViewerActivity extends Activity {
 		if (storageHelper != null) {
 			mWebView.update(storageHelper.readSettings());
 		}
+		if(currrentPage!=0){
+		 changeDoc(epubVersion
+		 + spine.getResource(currrentPage).getHref());
+		mWebView.loadUrl("file:///" + epubVersion
+				+ spine.getResource(currrentPage).getHref());
+		}
 	}
 
 	private void changeDoc(String in) {
 		Document doc;
+		Settings s = storageHelper.readSettings();
+		StringBuilder style = new StringBuilder();
+		// if(s.getTextColor() > 0){
+		String textColor = String.format("#%06X", (0xFFFFFF & s.getTextColor()));
+		style.append("color: ").append(textColor).append(";");
+		String bgColor = String.format("#%06X", (0xFFFFFF & s.getBgColor()));
+		style.append("background-color: ").append(bgColor).append(";");
+		style.append("font-family: ").append(s.getFontFamily().getCssFont()).append(";");
+		// }
 		try {
-			File input = new File(in); 
+			File input = new File(in);
 			doc = Jsoup.parse(input, "UTF-8");
 			Log.i("changeDoc", "parsing doc: " + in);
 			Elements styles = doc.select("style");
 			if (styles.size() == 0) {
-				for(Element e: styles){
-				    e.remove();
+				for (Element e : styles) {
+					e.remove();
 				}
 				Log.i("changeDoc", "remove atrr style");
 			}
 			Elements body = doc.select("body");
-			body.attr("style", " font-family: ‘American Typewriter’, ‘Courier New’, Courier, Monaco, mono; color: red;");
+			body.attr("style", style.toString());
 			Log.i("changeDoc", "set bg color");
-			
-				FileWriter fileWriter;
-				fileWriter = new FileWriter(in);
-				BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-				bufferedWriter.write(doc.toString());
-				Log.i("changeDoc", doc.toString());
-				bufferedWriter.close();
-				Log.i("changeDoc", "wrote to file: " + in);
-//			}
+
+			FileWriter fileWriter;
+			fileWriter = new FileWriter(in);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(doc.toString());
+			Log.i("changeDoc", doc.toString());
+			bufferedWriter.close();
+			Log.i("changeDoc", "wrote to file: " + in);
+			// }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

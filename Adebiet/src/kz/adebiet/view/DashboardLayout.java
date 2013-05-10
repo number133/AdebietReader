@@ -1,4 +1,4 @@
-package app.seamolec.siebenreader.view;
+package kz.adebiet.view;
 
 /*
 

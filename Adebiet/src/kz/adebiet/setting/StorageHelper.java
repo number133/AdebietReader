@@ -1,9 +1,10 @@
-package app.seamolec.siebenreader.io;
+package kz.adebiet.setting;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 
 import android.content.Context;
 

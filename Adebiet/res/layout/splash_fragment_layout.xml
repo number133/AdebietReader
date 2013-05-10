@@ -1,4 +1,4 @@
-<app.seamolec.siebenreader.view.DashboardLayout
+<kz.adebiet.view.DashboardLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -25,4 +25,4 @@
     
     </TableLayout>
     
-</app.seamolec.siebenreader.view.DashboardLayout>
+</kz.adebiet.view.DashboardLayout>

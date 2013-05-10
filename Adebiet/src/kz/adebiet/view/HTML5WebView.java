@@ -1,5 +1,6 @@
-package app.seamolec.siebenreader.view;
+package kz.adebiet.view;
 
+import kz.adebiet.setting.Settings;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +22,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import app.seamolec.siebenreader.R;
-import app.seamolec.siebenreader.io.Settings;
 
 public class HTML5WebView extends WebView {
 
@@ -222,7 +222,7 @@ public class HTML5WebView extends WebView {
 	
 	public void update(Settings settings){
 		updateFontSize(settings.getFontSize());
-		updateBgColor(settings.getBgColor());
+		//updateBgColor(settings.getBgColor());
 	}
 	
 	private void updateFontSize(int fontSize) {
@@ -247,7 +247,7 @@ public class HTML5WebView extends WebView {
 
 	}
 
-	private void updateBgColor(int bgColor){
-		this.setBackgroundColor(bgColor);
-	}
+//	private void updateBgColor(int bgColor){
+//		this.setBackgroundColor(bgColor);
+//	}
 }

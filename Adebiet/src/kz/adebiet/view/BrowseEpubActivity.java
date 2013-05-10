@@ -1,7 +1,10 @@
-package app.seamolec.siebenreader.view;
+package kz.adebiet.view;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import kz.adebiet.io.EpubExtractor;
+import kz.adebiet.util.Utils;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -13,8 +16,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 import app.seamolec.siebenreader.R;
-import app.seamolec.siebenreader.io.Utils;
-import app.seamolec.siebenreader.io.EpubExtractor;
 
 public class BrowseEpubActivity extends ListActivity {
 	

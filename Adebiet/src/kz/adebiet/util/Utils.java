@@ -1,4 +1,4 @@
-package app.seamolec.siebenreader.io;
+package kz.adebiet.util;
 
 import java.io.File;
 import java.io.FileInputStream;
