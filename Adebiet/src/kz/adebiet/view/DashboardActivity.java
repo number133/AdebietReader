@@ -74,9 +74,15 @@ public class DashboardActivity extends Activity {
 			
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(getApplicationContext(), AboutActivity.class);
+				Intent i = new Intent(getApplicationContext(), ArchiveActivity.class);
 				startActivity(i);
+				
 			}
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				Intent i = new Intent(getApplicationContext(), AboutActivity.class);
+//				startActivity(i);
+//			}
 		});
 		
 	}

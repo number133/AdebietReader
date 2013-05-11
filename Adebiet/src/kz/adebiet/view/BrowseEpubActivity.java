@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import kz.adebiet.io.EpubExtractor;
+import kz.adebiet.setting.History;
+import kz.adebiet.setting.StorageHelper;
 import kz.adebiet.util.Utils;
 
 import android.app.ListActivity;
@@ -26,6 +28,7 @@ public class BrowseEpubActivity extends ListActivity {
 	private BrowseEpubCustomAdapter mAdapter = null;
 	private Utils utils = null;
 	private ProgressDialog progressDialog;
+	private StorageHelper storageHelper = null;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -39,6 +42,7 @@ public class BrowseEpubActivity extends ListActivity {
 	    	mLastNode = (File)savedInstanceState.getSerializable("last_node");
 	    	mCurrentNode = (File)savedInstanceState.getSerializable("current_node");
 	    }
+	    storageHelper = new StorageHelper(this);
 	    
 	    utils = new Utils();
 	    File dir = new File(utils.DIR_OUTPUT);
@@ -89,7 +93,7 @@ public class BrowseEpubActivity extends ListActivity {
 				//Log.i("info", f.getParent()); // /mnt/sdcard/siebenreader
 				//Log.i("info", f.getName()); // epub file name from sd card
 				//Log.i("info", utils.DIR_OUTPUT + File.separator); // /mnt/sdcard/siebenreader/
-				progressDialog = ProgressDialog.show(BrowseEpubActivity.this, "Loading", "Please wait");
+				progressDialog = ProgressDialog.show(BrowseEpubActivity.this, "Жүктелуде", "Күте тұрыңыз");
 				new Thread() {
 					public void run() {
 						try{
@@ -99,6 +103,12 @@ public class BrowseEpubActivity extends ListActivity {
 							epubExtract.unzip(utils.DIR_OUTPUT + File.separator + utils.OUTPUT_EPUB_FILE, utils.DIR_OUTPUT + File.separator); // extract file /mnt/sdcard/siebenreader/sieben.epub
 							//Log.i("info", "file : " + utils.DIR_OUTPUT + File.separator + utils.OUTPUT_EPUB_FILE); 
 							//Log.i("info", "dest : " + utils.DIR_OUTPUT + File.separator);
+							
+							History h = storageHelper.readHistory();
+							if(!h.getFiles().contains(f)){
+								h.getFiles().add(f);
+								storageHelper.writeHistory(h);
+							}
 							
 							Intent i = new Intent(getApplicationContext(), EpubViewerActivity.class);
 							startActivity(i);

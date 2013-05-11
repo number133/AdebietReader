@@ -12,6 +12,7 @@ public class StorageHelper {
 	private Context ctx;
 	private static final String SETTINGS_FILE_NAME = "adebiet_settings";
 	private static final String BOOK_INFO_FILE_NAME = "book_info_settings";
+	private static final String BOOK_FILES = "book_files";
 
 	public StorageHelper(Context context) {
 		this.ctx = context;
@@ -77,5 +78,36 @@ public class StorageHelper {
 			e.printStackTrace();
 		}
 		return bookInfo;
+	}
+	
+	public void writeHistory(History history) {
+		FileOutputStream fos;
+		ObjectOutputStream oos;
+		try {
+			fos = ctx.openFileOutput(BOOK_FILES, Context.MODE_PRIVATE);
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(history);
+			oos.flush();
+			oos.close();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public History readHistory() {
+		History history = new History();
+		FileInputStream fis;
+		ObjectInputStream oin;
+		try {
+			fis = ctx.openFileInput(BOOK_FILES);
+			oin = new ObjectInputStream(fis);
+			history = (History) oin.readObject();
+			oin.close();
+			fis.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return history;
 	}
 }
