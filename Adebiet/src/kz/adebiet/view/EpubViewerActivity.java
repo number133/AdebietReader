@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import kz.adebiet.parser.EpubScanner;
+import kz.adebiet.setting.BookInfo;
 import kz.adebiet.setting.Settings;
 import kz.adebiet.setting.StorageHelper;
 import kz.adebiet.util.Utils;
@@ -49,8 +50,8 @@ public class EpubViewerActivity extends Activity {
 	private String epubVersion;
 	private int currrentPage, maxPage;
 	private StorageHelper storageHelper = null;
-	private String bodyStyle = null;
-
+	private BookInfo bookInfo= null;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,6 +79,11 @@ public class EpubViewerActivity extends Activity {
 
 			storageHelper = new StorageHelper(this);
 			mWebView.update(storageHelper.readSettings());
+			bookInfo = storageHelper.readBookInfo();
+			if(!bookInfo.getBooks().containsKey(book.getTitle().toString())){
+				bookInfo.getBooks().put(book.getTitle().toString(), 0);
+				storageHelper.writeBookInfo(bookInfo);
+			}
 
 			if (savedInstanceState != null) {
 				mWebView.restoreState(savedInstanceState);
@@ -126,6 +132,10 @@ public class EpubViewerActivity extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
+		if(bookInfo.getBooks().containsKey(book.getTitle().toString())){
+			bookInfo.getBooks().put(book.getTitle().toString(), currrentPage);
+			storageHelper.writeBookInfo(bookInfo);
+		}
 		mWebView.stopLoading();
 	}
 
@@ -165,18 +175,13 @@ public class EpubViewerActivity extends Activity {
 							count++;
 							currrentPage++;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage)
-											.getHref());
-							mWebView.loadUrl("file:///"
-									+ epubVersion
-									+ spine.getResource(currrentPage)
-											.getHref());
+									+ spine.getResource(currrentPage).getHref());
+							mWebView.loadUrl("file:///" + epubVersion
+									+ spine.getResource(currrentPage).getHref());
 							setContentView(mWebView.getLayout());
-							
-							Log.i("buka halaman kanan : "
-									+ (currrentPage), spine
-									.getResource(currrentPage)
-									.getHref());
+
+							Log.i("buka halaman kanan : " + (currrentPage),
+									spine.getResource(currrentPage).getHref());
 						}
 						return true;
 					}
@@ -193,18 +198,13 @@ public class EpubViewerActivity extends Activity {
 							count--;
 							currrentPage--;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage)
-											.getHref());
-							mWebView.loadUrl("file:///"
-									+ epubVersion
+									+ spine.getResource(currrentPage).getHref());
+							mWebView.loadUrl("file:///" + epubVersion
 									+ File.separator
-									+ spine.getResource(currrentPage)
-											.getHref());
-							setContentView(mWebView.getLayout());							
-							Log.i("buka halaman kiri : "
-									+ (currrentPage), spine
-									.getResource(currrentPage)
-									.getHref());
+									+ spine.getResource(currrentPage).getHref());
+							setContentView(mWebView.getLayout());
+							Log.i("buka halaman kiri : " + (currrentPage),
+									spine.getResource(currrentPage).getHref());
 						}
 						return true;
 					}
@@ -219,14 +219,16 @@ public class EpubViewerActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if(bookInfo.getBooks().containsKey(book.getTitle().toString())){
+			currrentPage = bookInfo.getBooks().get(book.getTitle().toString());
+		}
 		if (storageHelper != null) {
 			mWebView.update(storageHelper.readSettings());
 		}
-		if(currrentPage!=0){
-		 changeDoc(epubVersion
-		 + spine.getResource(currrentPage).getHref());
-		mWebView.loadUrl("file:///" + epubVersion
-				+ spine.getResource(currrentPage).getHref());
+		if (currrentPage != 0) {
+			changeDoc(epubVersion + spine.getResource(currrentPage).getHref());
+			mWebView.loadUrl("file:///" + epubVersion
+					+ spine.getResource(currrentPage).getHref());
 		}
 	}
 
@@ -235,11 +237,18 @@ public class EpubViewerActivity extends Activity {
 		Settings s = storageHelper.readSettings();
 		StringBuilder style = new StringBuilder();
 		// if(s.getTextColor() > 0){
-		String textColor = String.format("#%06X", (0xFFFFFF & s.getTextColor()));
+		String textColor = String
+				.format("#%06X", (0xFFFFFF & s.getTextColor()));
 		style.append("color: ").append(textColor).append(";");
 		String bgColor = String.format("#%06X", (0xFFFFFF & s.getBgColor()));
 		style.append("background-color: ").append(bgColor).append(";");
-		style.append("font-family: ").append(s.getFontFamily().getCssFont()).append(";");
+		style.append("font-family: ").append(s.getFontFamily().getCssFont())
+				.append(";");
+		style.append("font-style: ").append(s.getFontStyle().getCssFontStyle())
+		.append(";");
+		if (s.isBold()) {
+			style.append("font-weight: ").append("bold;");
+		}
 		// }
 		try {
 			File input = new File(in);

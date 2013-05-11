@@ -21,5 +21,7 @@
     <string name="font_family">Қаріп түрі</string>
     <string name="select_color">Түс таңдау</string>
     <string name="font_size">Қаріп өлшемі</string>
+    <string name="font_bold">Қалың қаріп</string>
+    <string name="font_style">Қаріп стилі</string>
 
 </resources>

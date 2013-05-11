@@ -2,21 +2,26 @@ package kz.adebiet.setting;
 
 import java.io.Serializable;
 
-import kz.adebiet.setting.enums.Font;
+import kz.adebiet.setting.enums.FontFamily;
+import kz.adebiet.setting.enums.FontStyle;
 
 public class Settings implements Serializable{
 
-	private static final long serialVersionUID = 3L;
+	private static final long serialVersionUID = 5L;
 	private int fontSize;
 	private int bgColor;
 	private int textColor;
-	private Font fontFamily;
+	private FontFamily fontFamily;
+	private boolean bold;
+	private FontStyle fontStyle;
 	
 	public Settings(){
 		fontSize = 3;
 		bgColor = 0xFFFFFFFF;
 		textColor = 0x00000000;
-		fontFamily = Font.AMERICAN_TYPEWRITER;
+		fontFamily = FontFamily.AMERICAN_TYPEWRITER;
+		bold = false;
+		fontStyle = FontStyle.NORMAL;
 	}
 
 	public int getFontSize() {
@@ -43,12 +48,28 @@ public class Settings implements Serializable{
 		this.textColor = textColor;
 	}
 
-	public Font getFontFamily() {
+	public FontFamily getFontFamily() {
 		return fontFamily;
 	}
 
-	public void setFontFamily(Font fontFamily) {
+	public void setFontFamily(FontFamily fontFamily) {
 		this.fontFamily = fontFamily;
 	}
-		
+
+	public boolean isBold() {
+		return bold;
+	}
+
+	public void setBold(boolean bold) {
+		this.bold = bold;
+	}
+
+	public FontStyle getFontStyle() {
+		return fontStyle;
+	}
+
+	public void setFontStyle(FontStyle fontStyle) {
+		this.fontStyle = fontStyle;
+	}		
+	
 }

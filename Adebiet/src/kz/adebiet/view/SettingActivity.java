@@ -2,7 +2,8 @@ package kz.adebiet.view;
 
 import kz.adebiet.setting.Settings;
 import kz.adebiet.setting.StorageHelper;
-import kz.adebiet.setting.enums.Font;
+import kz.adebiet.setting.enums.FontFamily;
+import kz.adebiet.setting.enums.FontStyle;
 import yuku.ambilwarna.AmbilWarnaDialog;
 import yuku.ambilwarna.AmbilWarnaDialog.OnAmbilWarnaListener;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -33,6 +35,8 @@ public class SettingActivity extends Activity {
 	private Button fontColorButton = null;
 	private Button fontColorViewButton = null;
 	private Spinner fontFamilySpinner = null;
+	private Spinner fontStyleSpinner = null;
+	private CheckBox boldFontCheckBox = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class SettingActivity extends Activity {
 		initBgColor();
 		initFontColor();
 		initFontFamily();
+		initFontStyle();
+		initFontBold();
 	}
 	
 	private void initSettings(){
@@ -168,23 +174,64 @@ public class SettingActivity extends Activity {
 
 	private void initFontFamily(){
 		fontFamilySpinner = (Spinner) findViewById(R.id.fontFamilySpinner);
-		String[] data = Font.getNames();
-		Log.i("font names: ", Font.getNames().toString());
+		String[] data = FontFamily.getNames();
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fontFamilySpinner.setAdapter(adapter);
-        fontFamilySpinner.setPrompt("Title");
+        fontFamilySpinner.setPrompt("Қаріп түрі");
         fontFamilySpinner.setSelection(appSettings.getFontFamily().getFontId());
         fontFamilySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                 int position, long id) {
-            	appSettings.setFontFamily(Font.values()[position]);
+            	appSettings.setFontFamily(FontFamily.values()[position]);
             	storageHelper.writeSettings(appSettings);
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
           });
+	}
+	
+	private void initFontStyle(){
+		fontStyleSpinner = (Spinner) findViewById(R.id.fontStyleSpinner);
+		String[] data = FontStyle.getNames();
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		fontStyleSpinner.setAdapter(adapter);
+		fontStyleSpinner.setPrompt("Қаріп стилі");
+		fontStyleSpinner.setSelection(appSettings.getFontStyle().getFontStyleId());
+		fontStyleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                int position, long id) {
+            	appSettings.setFontStyle(FontStyle.values()[position]);
+            	storageHelper.writeSettings(appSettings);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+          });
+	}
+
+	private void initFontBold(){
+		boldFontCheckBox = (CheckBox) findViewById(R.id.fontBoldCheckBox);
+		boldFontCheckBox.setChecked(appSettings.isBold());
+		 
+		boldFontCheckBox.setOnClickListener(new OnClickListener() {
+	 
+		  @Override
+		  public void onClick(View v) {
+	                //is chkIos checked?
+			if (((CheckBox) v).isChecked()) {
+				appSettings.setBold(true);
+				storageHelper.writeSettings(appSettings);
+			} else {
+				appSettings.setBold(false);
+				storageHelper.writeSettings(appSettings);
+			}
+	 
+		  }
+		});
 	}
 }
