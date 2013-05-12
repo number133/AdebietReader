@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class ArchiveActivity extends ListActivity {
 	private ArchiveAdapter mAdapter = null;

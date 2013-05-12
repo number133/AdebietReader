@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class ArchiveAdapter extends ArrayAdapter<File> {
 	private ArrayList<File> items;

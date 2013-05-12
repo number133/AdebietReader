@@ -8,7 +8,8 @@
     <string name="dashboard_open_book">Кітап ашу</string>
     <string name="dashboard_setting">Баптаулар</string>
     <string name="dashboard_help">Көмек</string>
-    <string name="dashboard_about">Біз туралы</string>
+    <string name="dashboard_about">Біз туралы</string>    
+    <string name="dashboard_history">Соңғы кітаптар</string>
     <string name="menu_toc">Мазмұны</string>
     <string name="menu_dashboard">Бас мәзір</string>
     <string name="menu_exit">Шығу</string>
@@ -23,5 +24,8 @@
     <string name="font_size">Қаріп өлшемі</string>
     <string name="font_bold">Қалың қаріп</string>
     <string name="font_style">Қаріп стилі</string>
+    <string name="title_activity_custom_options">CustomOptionsActivity</string>
+    <string name="first_page">Бірінші бет</string>
+    <string name="last_page">Соңғы бет</string>
 
 </resources>

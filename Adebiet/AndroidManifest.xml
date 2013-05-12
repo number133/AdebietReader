@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.seamolec.siebenreader"
+    package="kz.adebiet"
     android:versionCode="1"
     android:versionName="@string/app_version" >
 
@@ -44,7 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="kz.adebiet.view.ArchiveActivity" >
+        <activity android:name="kz.adebiet.view.ArchiveActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

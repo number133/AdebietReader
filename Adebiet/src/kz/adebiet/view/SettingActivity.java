@@ -23,7 +23,7 @@ import android.widget.Spinner;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class SettingActivity extends Activity {
 	private StorageHelper storageHelper = null;

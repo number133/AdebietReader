@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class BrowseEpubActivity extends ListActivity {
 	

@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.TableLayout;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class SplashScreenActivity extends Activity {
 

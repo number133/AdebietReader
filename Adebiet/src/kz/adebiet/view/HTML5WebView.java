@@ -21,7 +21,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import app.seamolec.siebenreader.R;
+import kz.adebiet.R;
 
 public class HTML5WebView extends WebView {
 

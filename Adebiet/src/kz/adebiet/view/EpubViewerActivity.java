@@ -19,26 +19,31 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import nl.siegmann.epublib.domain.Book;
-import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Spine;
 import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.epub.EpubReader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebSettings;
-import app.seamolec.siebenreader.R;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import kz.adebiet.R;
 
 public class EpubViewerActivity extends Activity {
 
@@ -48,17 +53,18 @@ public class EpubViewerActivity extends Activity {
 	private EpubScanner epubScan;
 	private HTML5WebView mWebView;
 	private String epubVersion;
-	private int currrentPage, maxPage;
+	private int currentPage, maxPage;
 	private StorageHelper storageHelper = null;
-	private BookInfo bookInfo= null;
-	
+	private BookInfo bookInfo = null;
+	MenuDialog customMenuDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		utils = new Utils();
 		epubScan = new EpubScanner();
-		currrentPage = 0;
+		currentPage = 0;
 
 		try {
 			book = (new EpubReader())
@@ -80,7 +86,7 @@ public class EpubViewerActivity extends Activity {
 			storageHelper = new StorageHelper(this);
 			mWebView.update(storageHelper.readSettings());
 			bookInfo = storageHelper.readBookInfo();
-			if(!bookInfo.getBooks().containsKey(book.getTitle().toString())){
+			if (!bookInfo.getBooks().containsKey(book.getTitle().toString())) {
 				bookInfo.getBooks().put(book.getTitle().toString(), 0);
 				storageHelper.writeBookInfo(bookInfo);
 			}
@@ -91,7 +97,7 @@ public class EpubViewerActivity extends Activity {
 				// changeDoc(epubVersion
 				// + spine.getResource(currrentPage).getHref());
 				mWebView.loadUrl("file:///" + epubVersion
-						+ spine.getResource(currrentPage).getHref());
+						+ spine.getResource(currentPage).getHref());
 			}
 
 			setContentView(mWebView.getLayout());
@@ -107,19 +113,19 @@ public class EpubViewerActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_ebook, menu);
+		// MenuInflater inflater = getMenuInflater();
+		// inflater.inflate(R.menu.menu_ebook, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		if (item.getItemId() == R.id.menu_toc) {
-			startActivity(new Intent(this, TOCActivity.class));
-		} else if (item.getItemId() == R.id.menu_dashboard) {
-			startActivity(new Intent(this, DashboardActivity.class));
-		}
+		// if (item.getItemId() == R.id.menu_toc) {
+		// startActivity(new Intent(this, TOCActivity.class));
+		// } else if (item.getItemId() == R.id.menu_dashboard) {
+		// startActivity(new Intent(this, DashboardActivity.class));
+		// }
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -132,8 +138,8 @@ public class EpubViewerActivity extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		if(bookInfo.getBooks().containsKey(book.getTitle().toString())){
-			bookInfo.getBooks().put(book.getTitle().toString(), currrentPage);
+		if (bookInfo.getBooks().containsKey(book.getTitle().toString())) {
+			bookInfo.getBooks().put(book.getTitle().toString(), currentPage);
 			storageHelper.writeBookInfo(bookInfo);
 		}
 		mWebView.stopLoading();
@@ -173,15 +179,15 @@ public class EpubViewerActivity extends Activity {
 
 						if (count < maxPage) {
 							count++;
-							currrentPage++;
+							currentPage++;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage).getHref());
+									+ spine.getResource(currentPage).getHref());
 							mWebView.loadUrl("file:///" + epubVersion
-									+ spine.getResource(currrentPage).getHref());
+									+ spine.getResource(currentPage).getHref());
 							setContentView(mWebView.getLayout());
 
-							Log.i("buka halaman kanan : " + (currrentPage),
-									spine.getResource(currrentPage).getHref());
+							Log.i("buka halaman kanan : " + (currentPage),
+									spine.getResource(currentPage).getHref());
 						}
 						return true;
 					}
@@ -196,15 +202,15 @@ public class EpubViewerActivity extends Activity {
 
 						if (count > 0) {
 							count--;
-							currrentPage--;
+							currentPage--;
 							changeDoc(epubVersion
-									+ spine.getResource(currrentPage).getHref());
+									+ spine.getResource(currentPage).getHref());
 							mWebView.loadUrl("file:///" + epubVersion
 									+ File.separator
-									+ spine.getResource(currrentPage).getHref());
+									+ spine.getResource(currentPage).getHref());
 							setContentView(mWebView.getLayout());
-							Log.i("buka halaman kiri : " + (currrentPage),
-									spine.getResource(currrentPage).getHref());
+							Log.i("buka halaman kiri : " + (currentPage), spine
+									.getResource(currentPage).getHref());
 						}
 						return true;
 					}
@@ -219,17 +225,23 @@ public class EpubViewerActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(bookInfo.getBooks().containsKey(book.getTitle().toString())){
-			currrentPage = bookInfo.getBooks().get(book.getTitle().toString());
+		if (bookInfo.getBooks().containsKey(book.getTitle().toString())) {
+			currentPage = bookInfo.getBooks().get(book.getTitle().toString());
 		}
 		if (storageHelper != null) {
 			mWebView.update(storageHelper.readSettings());
 		}
-		if (currrentPage != 0) {
-			changeDoc(epubVersion + spine.getResource(currrentPage).getHref());
+		if (currentPage != 0) {
+			changeDoc(epubVersion + spine.getResource(currentPage).getHref());
 			mWebView.loadUrl("file:///" + epubVersion
-					+ spine.getResource(currrentPage).getHref());
+					+ spine.getResource(currentPage).getHref());
 		}
+	}
+
+	public void refresh() {
+		changeDoc(epubVersion + spine.getResource(currentPage).getHref());
+		mWebView.loadUrl("file:///" + epubVersion
+				+ spine.getResource(currentPage).getHref());
 	}
 
 	private void changeDoc(String in) {
@@ -245,7 +257,7 @@ public class EpubViewerActivity extends Activity {
 		style.append("font-family: ").append(s.getFontFamily().getCssFont())
 				.append(";");
 		style.append("font-style: ").append(s.getFontStyle().getCssFontStyle())
-		.append(";");
+				.append(";");
 		if (s.isBold()) {
 			style.append("font-weight: ").append("bold;");
 		}
@@ -276,6 +288,127 @@ public class EpubViewerActivity extends Activity {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			if (customMenuDialog == null) {
+				customMenuDialog = new MenuDialog(this);
+				customMenuDialog.setCanceledOnTouchOutside(false);
+				customMenuDialog
+						.setOnDismissListener(new DialogInterface.OnDismissListener() {
+							@Override
+							public void onDismiss(DialogInterface dialog) {
+								refresh();
+							}
+						});
+			}
+			customMenuDialog.update();
+			customMenuDialog.show();
+			return true;
+		}
+		return super.onKeyUp(keyCode, event);
+
+	}
+
+	private class MenuDialog extends AlertDialog {
+		private Context cxt;
+		private ProgressBar progressBar;
+		private TextView progressText;
+		private Button firtPageButton;
+		private Button lastPageButton;
+		private EditText pageNumberEditText;
+		private TextView pageCountTextView;
+		private Button homeButton;
+		private Button settingButton;
+
+		public MenuDialog(Context context) {
+			super(context);
+			cxt = context;
+			View cus_menu = getLayoutInflater().inflate(
+					R.layout.activity_custom_options, null);
+			setView(cus_menu);
+			progressBar = (ProgressBar) cus_menu.findViewById(R.id.progressBar);
+			progressText = (TextView) cus_menu
+					.findViewById(R.id.progressTextView);
+			firtPageButton = (Button) cus_menu
+					.findViewById(R.id.firstPageButton);
+			lastPageButton = (Button) cus_menu
+					.findViewById(R.id.LastPageButton);
+			homeButton = (Button) cus_menu.findViewById(R.id.homeButton);
+			settingButton = (Button) cus_menu.findViewById(R.id.settingButton);
+			homeButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(getApplicationContext(),
+							DashboardActivity.class);
+					startActivity(i);
+					dismiss();
+				}
+			});
+			settingButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(getApplicationContext(),
+							SettingActivity.class);
+					startActivity(i);
+					dismiss();
+				}
+			});
+
+			pageNumberEditText = (EditText) cus_menu
+					.findViewById(R.id.pageNumberEditText);
+			pageNumberEditText.setText(Integer.toString(currentPage));
+			pageCountTextView = (TextView) cus_menu
+					.findViewById(R.id.pageCountTextView);
+			pageCountTextView.setText("/" + (maxPage - 1));
+			firtPageButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					currentPage = 1;
+					dismiss();
+				}
+			});
+			lastPageButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					currentPage = maxPage - 1;
+					dismiss();
+				}
+			});
+			update();
+
+		}
+
+		private void update() {
+			float c = currentPage;
+			float m = maxPage;
+			String percent = String.format("%.2f", ((c) / (m - 1) * 100.00f))
+					+ "%";
+			if (progressBar != null) {
+				progressBar.setMax(maxPage);
+				progressBar.setProgress(currentPage);
+			}
+			if (progressText != null) {
+				progressText.setText(percent);
+			}
+			pageNumberEditText.setText(Integer.toString(currentPage));
+		}
+
+		@Override
+		public boolean onKeyUp(int keyCode, KeyEvent event) {
+			if (keyCode == KeyEvent.KEYCODE_MENU) {
+				int page = Integer.parseInt(pageNumberEditText.getText()
+						.toString());
+				if (page > 0 && page < maxPage) {
+					currentPage = page;
+				}
+				dismiss();
+				return true;
+			}
+			return super.onKeyUp(keyCode, event);
 		}
 	}
 }

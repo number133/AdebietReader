@@ -36,5 +36,13 @@
         android:drawableTop="@drawable/btn_about"
         android:text="@string/dashboard_about">
     </Button>
+    
+    <!--  About Button -->
+    <Button
+        android:id="@+id/btn_history"
+        style="@style/DashboardButton"
+        android:drawableTop="@drawable/btn_about"
+        android:text="@string/dashboard_history">
+    </Button>
 
 </kz.adebiet.view.DashboardLayout>
