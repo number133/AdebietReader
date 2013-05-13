@@ -1,13 +1,24 @@
 package kz.adebiet.view;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.ObjectOutputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import kz.adebiet.R;
+import kz.adebiet.setting.FTPDownloader;
+import kz.adebiet.setting.FTPUploader;
+import kz.adebiet.setting.RemoteBook;
+import kz.adebiet.setting.RemoteLibrary;
+import kz.adebiet.util.Utils;
 
 public class DashboardActivity extends Activity {
 
@@ -95,7 +106,27 @@ public class DashboardActivity extends Activity {
 
 			}
 		});
-
+		
+//		try{
+//			RemoteLibrary lib = new RemoteLibrary();
+//			RemoteBook book = new RemoteBook();
+//			book.setTitle("Abay");
+//			book.setDescription("Some desc");
+//			book.setSize("2");
+//			book.setPath("book");
+//			lib.getBooks().add(book);
+//			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+//			ObjectOutputStream oos = new ObjectOutputStream(buffer);
+//			oos.writeObject(lib);
+//			oos.close();
+//			byte[] rawData = buffer.toByteArray();
+//			InputStream myInputStream = new ByteArrayInputStream(rawData); 
+//			FTPUploader ftp = new FTPUploader();
+//			ftp.execute(myInputStream, "myfile.txt");
+//			
+//		}catch(Exception ex){
+//			Log.i("FTP", "Error");
+//		}
 	}
 
 }
