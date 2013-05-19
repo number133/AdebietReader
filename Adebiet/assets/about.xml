@@ -4,7 +4,7 @@
 	<head>
 		<title>Әдебиет</title>
 	</head>
-	<body style="padding: 1em;">
+	<body style="padding: 1em; background-image: 'file:///android_asset/sieben_reader.png'">
 		<p style="text-align: center;">
 			<img alt="Epub Reader for Android" src="file:///android_asset/sieben_reader.png" />
 			<br />

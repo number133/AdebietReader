@@ -1,12 +1,15 @@
 package kz.adebiet.view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import kz.adebiet.io.EpubExtractor;
 import kz.adebiet.setting.History;
 import kz.adebiet.setting.StorageHelper;
 import kz.adebiet.util.Utils;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,16 +24,19 @@ public class ArchiveActivity extends ListActivity {
 	private ArrayList<File> mFiles = new ArrayList<File>();
 	private ProgressDialog progressDialog;
 	private Utils utils = null;
+	private AlertDialog.Builder adb = null;
+	private StorageHelper storageHelper;
+	private History history; 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		StorageHelper storageHelper = new StorageHelper(this);
-		History h = storageHelper.readHistory();
-		mFiles = h.getFiles();
-		setContentView(R.layout.browse_main);			
-		mAdapter = new ArchiveAdapter(this, R.layout.browse_list_row,
-				mFiles);
+		adb = new AlertDialog.Builder(this);
+		storageHelper = new StorageHelper(this);
+		history = storageHelper.readHistory();
+		mFiles = history.getFiles();
+		setContentView(R.layout.browse_main);
+		mAdapter = new ArchiveAdapter(this, R.layout.browse_list_row, mFiles);
 		setListAdapter(mAdapter);
 		utils = new Utils();
 		File dir = new File(utils.DIR_OUTPUT);
@@ -39,6 +45,7 @@ public class ArchiveActivity extends ListActivity {
 
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
 		final File f = (File) parent.getItemAtPosition(position);
@@ -46,37 +53,53 @@ public class ArchiveActivity extends ListActivity {
 		// Log.i("info", f.getName()); // epub file name from sd card
 		// Log.i("info", utils.DIR_OUTPUT + File.separator); //
 		// /mnt/sdcard/siebenreader/
-		progressDialog = ProgressDialog.show(ArchiveActivity.this, "Жүктелуде",
-				"Күте тұрыңыз");
-		new Thread() {
-			public void run() {
-				try {
-					utils.copyFile(f.getParent() + File.separator, f.getName(),
-							utils.DIR_OUTPUT + File.separator); // rename epub
-																// file to
-																// sieben.epub
-																// and copy to
-																// /mnt/sdcard/siebenreader/
+		File test = new File(f.getParent() + File.separator + f.getName());
+		if (!test.exists()) {
+			mFiles.remove(f);
+			history.setFiles(mFiles);
+			storageHelper.writeHistory(history);
+			AlertDialog ad = adb.create();
+			ad.setMessage("Кітап табылмады");
+			ad.show();
+			recreate();			
+		} else {
+			progressDialog = ProgressDialog.show(ArchiveActivity.this,
+					"Жүктелуде", "Күте тұрыңыз");
+			new Thread() {
+				public void run() {
+					try {
 
-					EpubExtractor epubExtract = new EpubExtractor();
-					epubExtract.unzip(utils.DIR_OUTPUT + File.separator
-							+ utils.OUTPUT_EPUB_FILE, utils.DIR_OUTPUT
-							+ File.separator); // extract file
-												// /mnt/sdcard/siebenreader/sieben.epub
-					// Log.i("info", "file : " + utils.DIR_OUTPUT +
-					// File.separator + utils.OUTPUT_EPUB_FILE);
-					// Log.i("info", "dest : " + utils.DIR_OUTPUT +
-					// File.separator);
+						utils.copyFile(f.getParent() + File.separator,
+								f.getName(), utils.DIR_OUTPUT + File.separator); // rename
+																					// epub
+																					// file
+																					// to
+																					// sieben.epub
+																					// and
+																					// copy
+																					// to
+																					// /mnt/sdcard/siebenreader/
 
-					Intent i = new Intent(getApplicationContext(),
-							EpubViewerActivity.class);
-					startActivity(i);
+						EpubExtractor epubExtract = new EpubExtractor();
+						epubExtract.unzip(utils.DIR_OUTPUT + File.separator
+								+ utils.OUTPUT_EPUB_FILE, utils.DIR_OUTPUT
+								+ File.separator); // extract file
+													// /mnt/sdcard/siebenreader/sieben.epub
+						// Log.i("info", "file : " + utils.DIR_OUTPUT +
+						// File.separator + utils.OUTPUT_EPUB_FILE);
+						// Log.i("info", "dest : " + utils.DIR_OUTPUT +
+						// File.separator);
 
-				} catch (Exception e) {
-					Log.e("tag", e.getMessage());
+						Intent i = new Intent(getApplicationContext(),
+								EpubViewerActivity.class);
+						startActivity(i);
+
+					} catch (Exception e) {
+
+					}
+					progressDialog.dismiss();
 				}
-				progressDialog.dismiss();
-			}
-		}.start();
+			}.start();
+		}
 	}
 }

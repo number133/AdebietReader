@@ -2,10 +2,11 @@
     android:id="@+id/home_root"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    style="@style/ImageAppTheme">
     
     	<!-- Include Action Bar dashboard -->
-    	<include layout="@layout/dashboard_actionbar_layout"/>
+    <!-- <include layout="@layout/dashboard_actionbar_layout"/>  -->	
     	
     	<!--  Include Fragmented dashboard -->	
 		<include layout="@layout/dashboard_fragment_layout"/>	

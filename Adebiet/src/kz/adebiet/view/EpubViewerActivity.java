@@ -40,6 +40,7 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.DigitalClock;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -323,6 +324,7 @@ public class EpubViewerActivity extends Activity {
 		private TextView pageCountTextView;
 		private Button homeButton;
 		private Button settingButton;
+		private DigitalClock dClock;		
 
 		public MenuDialog(Context context) {
 			super(context);

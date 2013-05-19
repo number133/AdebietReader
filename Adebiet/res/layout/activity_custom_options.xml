@@ -40,7 +40,8 @@
             android:id="@+id/firstPageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/first_page" />
+            android:text="@string/first_page" 
+            style="@style/btnStyleSandrift"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -66,7 +67,8 @@
             android:id="@+id/LastPageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/last_page" />
+            android:text="@string/last_page" 
+            style="@style/btnStyleSandrift"/>
     </LinearLayout>
 
     <LinearLayout
@@ -77,10 +79,11 @@
             android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_dashboard" />
+            android:text="@string/menu_dashboard" 
+            style="@style/btnStyleSandrift"/>
 
-        <DigitalClock
-            android:id="@+id/digitalClock1"
+        <kz.adebiet.util.AdebietDigitalClock
+            android:id="@+id/menuDigitalClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -89,7 +92,8 @@
             android:id="@+id/settingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dashboard_setting" />
+            android:text="@string/dashboard_setting" 
+            style="@style/btnStyleSandrift"/>
     </LinearLayout>
 
 </LinearLayout>

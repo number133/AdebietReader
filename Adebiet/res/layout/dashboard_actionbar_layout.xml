@@ -7,6 +7,6 @@
         android:contentDescription="@string/app_name"
         android:paddingLeft="15dip"
         android:scaleType="center"
-        android:src="@drawable/text_sieben2" />
+        android:src="@drawable/text_adebiet" />
 
 </LinearLayout>

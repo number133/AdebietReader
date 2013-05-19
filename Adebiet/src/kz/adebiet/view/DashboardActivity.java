@@ -73,15 +73,9 @@ public class DashboardActivity extends Activity {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				new AlertDialog.Builder(DashboardActivity.this)
-						.setTitle("Көмек")
-						.setMessage(
-								"- Кітап ашу : дисктен.epub extention бар файлды ашыңыз\n"
-										+ "- Көмек : бұл қосымшаны қалай пайдалану қажет\n"
-										+ "> келесі бетке өту үшін оңнан солға жүргізіңіз\n"
-										+ "> алдыңғы бетке өту үшін солдан оңға жүргізіңіз\n"
-										+ "- Біз туралы : осы қосымшаны жасаушы")
-						.setPositiveButton("Жабу", null).show();
+				Intent i = new Intent(getApplicationContext(),
+						HelpActivity.class);
+				startActivity(i);
 			}
 		});
 

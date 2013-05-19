@@ -18,7 +18,7 @@ public final class R {
 		public static final int ambilwarna_viewSatBri = 0x7f0a0018;
 	}
 	public static final class layout {
-		public static final int ambilwarna_dialog = 0x7f030002;
+		public static final int ambilwarna_dialog = 0x7f030004;
 	}
 	public static final class drawable {
 		public static final int ambilwarna_arrow_right = 0x7f020002;

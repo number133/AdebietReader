@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SettingActivity" >
+    tools:context=".SettingActivity" 
+    style="@style/ImageAppTheme">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +58,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/select_color" />
+            android:text="@string/select_color"
+            style="@style/btnStyleSandrift" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,14 +80,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="false" />
+            android:clickable="false"  />
 
         <Button
             android:id="@+id/fontColorButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="@string/select_color" />
+            android:text="@string/select_color" 
+            style="@style/btnStyleSandrift" />
     </LinearLayout>
 
     <LinearLayout
@@ -105,7 +108,8 @@
             android:id="@+id/fontFamilySpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1" 
+            style="@style/btnStyleSandrift" />
     </LinearLayout>
     
     <LinearLayout
@@ -125,7 +129,8 @@
             android:id="@+id/fontStyleSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1" 
+            style="@style/btnStyleSandrift" />
     </LinearLayout>
 
     <CheckBox
