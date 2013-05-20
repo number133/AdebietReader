@@ -158,7 +158,7 @@ public class EpubViewerActivity extends Activity {
 	}
 
 	public class CustomeGestureDetector extends SimpleOnGestureListener {
-		int count = 0;
+//		int count = 0;
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -178,8 +178,8 @@ public class EpubViewerActivity extends Activity {
 								getApplicationContext(), R.anim.right_to_left);
 						mWebView.startAnimation(anim);
 
-						if (count < maxPage) {
-							count++;
+						if (currentPage < maxPage) {
+//							count++;
 							currentPage++;
 							changeDoc(epubVersion
 									+ spine.getResource(currentPage).getHref());
@@ -201,8 +201,8 @@ public class EpubViewerActivity extends Activity {
 								getApplicationContext(), R.anim.left_to_right);
 						mWebView.startAnimation(anim);
 
-						if (count > 0) {
-							count--;
+						if (currentPage > 0) {
+//							count--;
 							currentPage--;
 							changeDoc(epubVersion
 									+ spine.getResource(currentPage).getHref());
