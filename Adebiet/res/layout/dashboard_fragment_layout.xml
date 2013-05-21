@@ -36,11 +36,11 @@
         android:text="@string/dashboard_about">
     </Button>
     
-    <!--  About Button -->
+    <!--  History Button -->
     <Button
         android:id="@+id/btn_history"
         style="@style/DashboardButton"
-        android:drawableTop="@drawable/btn_about"
+        android:drawableTop="@drawable/btn_history"
         android:text="@string/dashboard_history">
     </Button>
 

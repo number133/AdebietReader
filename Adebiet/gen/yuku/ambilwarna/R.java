@@ -21,11 +21,11 @@ public final class R {
 		public static final int ambilwarna_dialog = 0x7f030004;
 	}
 	public static final class drawable {
-		public static final int ambilwarna_arrow_right = 0x7f020002;
-		public static final int ambilwarna_hue = 0x7f020004;
-		public static final int ambilwarna_arrow_down = 0x7f020001;
-		public static final int ambilwarna_target = 0x7f020005;
-		public static final int ambilwarna_cursor = 0x7f020003;
+		public static final int ambilwarna_arrow_right = 0x7f020003;
+		public static final int ambilwarna_hue = 0x7f020005;
+		public static final int ambilwarna_arrow_down = 0x7f020002;
+		public static final int ambilwarna_target = 0x7f020006;
+		public static final int ambilwarna_cursor = 0x7f020004;
 	}
 	public static final class dimen {
 		public static final int ambilwarna_hsvWidth = 0x7f050001;
