@@ -121,7 +121,7 @@ public class BrowseEpubActivity extends ListActivity {
 				}.start();	
 			}
 			else{
-				Toast.makeText(this, "Not Epub File! Please choose another one.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "Epub форматындағы файл емес!", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

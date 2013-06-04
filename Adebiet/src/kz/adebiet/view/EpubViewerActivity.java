@@ -79,8 +79,8 @@ public class EpubViewerActivity extends Activity {
 
 			epubScan.getTOC(book.getTableOfContents().getTocReferences(), 0);
 			mWebView = new HTML5WebView(this);
-			mWebView.setGestureDetector(new GestureDetector(
-					new CustomeGestureDetector()));
+			 mWebView.setGestureDetector(new GestureDetector(
+			 new SimpleOnGestureListener()));
 
 			epubVersion = epubScan.getEpubVersion();
 
@@ -148,80 +148,118 @@ public class EpubViewerActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		boolean flag = false;
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (mWebView.inCustomView()) {
 				mWebView.hideCustomView();
-				return true;
+				flag = true;
 			}
-		}
-		return super.onKeyDown(keyCode, event);
+		} else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+			Log.i("swipe", "right to left");
+			Animation anim = AnimationUtils.loadAnimation(
+					getApplicationContext(), R.anim.right_to_left);
+			mWebView.startAnimation(anim);
+
+			if (currentPage < maxPage) {
+				// count++;
+				currentPage++;
+				changeDoc(epubVersion
+						+ spine.getResource(currentPage).getHref());
+				mWebView.loadUrl("file:///" + epubVersion
+						+ spine.getResource(currentPage).getHref());
+				setContentView(mWebView.getLayout());
+
+				Log.i("buka halaman kanan : " + (currentPage), spine
+						.getResource(currentPage).getHref());
+			}
+			flag = true;
+		} else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+			Log.i("swipe", "left to right");
+			Animation anim = AnimationUtils.loadAnimation(
+					getApplicationContext(), R.anim.left_to_right);
+			mWebView.startAnimation(anim);
+
+			if (currentPage > 0) {
+				// count--;
+				currentPage--;
+				changeDoc(epubVersion
+						+ spine.getResource(currentPage).getHref());
+				mWebView.loadUrl("file:///" + epubVersion + File.separator
+						+ spine.getResource(currentPage).getHref());
+				setContentView(mWebView.getLayout());
+				Log.i("buka halaman kiri : " + (currentPage), spine
+						.getResource(currentPage).getHref());
+			}
+			flag = true;
+		} 
+		return flag;
 	}
 
-	public class CustomeGestureDetector extends SimpleOnGestureListener {
-//		int count = 0;
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			if (e1 == null || e2 == null)
-				return false;
-			if (e1.getPointerCount() > 1 || e2.getPointerCount() > 1)
-				return false;
-			else {
-				try {
-					// go to next page
-					if (e1.getX() - e2.getX() > 100
-							&& Math.abs(velocityX) > 800) {
-
-						Log.i("swipe", "right to left");
-						Animation anim = AnimationUtils.loadAnimation(
-								getApplicationContext(), R.anim.right_to_left);
-						mWebView.startAnimation(anim);
-
-						if (currentPage < maxPage) {
-//							count++;
-							currentPage++;
-							changeDoc(epubVersion
-									+ spine.getResource(currentPage).getHref());
-							mWebView.loadUrl("file:///" + epubVersion
-									+ spine.getResource(currentPage).getHref());
-							setContentView(mWebView.getLayout());
-
-							Log.i("buka halaman kanan : " + (currentPage),
-									spine.getResource(currentPage).getHref());
-						}
-						return true;
-					}
-					// go to prev page
-					else if (e2.getX() - e1.getX() > 100
-							&& Math.abs(velocityX) > 800) {
-
-						Log.i("swipe", "left to right");
-						Animation anim = AnimationUtils.loadAnimation(
-								getApplicationContext(), R.anim.left_to_right);
-						mWebView.startAnimation(anim);
-
-						if (currentPage > 0) {
-//							count--;
-							currentPage--;
-							changeDoc(epubVersion
-									+ spine.getResource(currentPage).getHref());
-							mWebView.loadUrl("file:///" + epubVersion
-									+ File.separator
-									+ spine.getResource(currentPage).getHref());
-							setContentView(mWebView.getLayout());
-							Log.i("buka halaman kiri : " + (currentPage), spine
-									.getResource(currentPage).getHref());
-						}
-						return true;
-					}
-				} catch (Exception e) {
-
-				}
-				return false;
-			}
-		}
-	}
+	// public class CustomeGestureDetector extends SimpleOnGestureListener {
+	// // int count = 0;
+	//
+	// @Override
+	// public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+	// float velocityY) {
+	// if (e1 == null || e2 == null)
+	// return false;
+	// if (e1.getPointerCount() > 1 || e2.getPointerCount() > 1)
+	// return false;
+	// else {
+	// try {
+	// // go to next page
+	// if (e1.getX() - e2.getX() > 100
+	// && Math.abs(velocityX) > 800) {
+	//
+	// Log.i("swipe", "right to left");
+	// Animation anim = AnimationUtils.loadAnimation(
+	// getApplicationContext(), R.anim.right_to_left);
+	// mWebView.startAnimation(anim);
+	//
+	// if (currentPage < maxPage) {
+	// // count++;
+	// currentPage++;
+	// changeDoc(epubVersion
+	// + spine.getResource(currentPage).getHref());
+	// mWebView.loadUrl("file:///" + epubVersion
+	// + spine.getResource(currentPage).getHref());
+	// setContentView(mWebView.getLayout());
+	//
+	// Log.i("buka halaman kanan : " + (currentPage),
+	// spine.getResource(currentPage).getHref());
+	// }
+	// return true;
+	// }
+	// // go to prev page
+	// else if (e2.getX() - e1.getX() > 100
+	// && Math.abs(velocityX) > 800) {
+	//
+	// Log.i("swipe", "left to right");
+	// Animation anim = AnimationUtils.loadAnimation(
+	// getApplicationContext(), R.anim.left_to_right);
+	// mWebView.startAnimation(anim);
+	//
+	// if (currentPage > 0) {
+	// // count--;
+	// currentPage--;
+	// changeDoc(epubVersion
+	// + spine.getResource(currentPage).getHref());
+	// mWebView.loadUrl("file:///" + epubVersion
+	// + File.separator
+	// + spine.getResource(currentPage).getHref());
+	// setContentView(mWebView.getLayout());
+	// Log.i("buka halaman kiri : " + (currentPage), spine
+	// .getResource(currentPage).getHref());
+	// }
+	// return true;
+	// }
+	// } catch (Exception e) {
+	//
+	// }
+	// return false;
+	// }
+	// }
+	// }
 
 	@Override
 	protected void onResume() {
@@ -324,7 +362,7 @@ public class EpubViewerActivity extends Activity {
 		private TextView pageCountTextView;
 		private Button homeButton;
 		private Button settingButton;
-		private DigitalClock dClock;		
+		private DigitalClock dClock;
 
 		public MenuDialog(Context context) {
 			super(context);

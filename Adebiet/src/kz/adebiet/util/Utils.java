@@ -16,8 +16,8 @@ public class Utils {
 
 	public String SDCARD_STATE = Environment.getExternalStorageState();
 	public String DIR_SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath();
-	public String DIR_APP_NAME = "siebenreader";
-	public String OUTPUT_EPUB_FILE = "sieben.epub";
+	public String DIR_APP_NAME = "adebietreader";
+	public String OUTPUT_EPUB_FILE = "adebiet.epub";
 	public String DIR_OUTPUT = DIR_SDCARD + File.separator + DIR_APP_NAME; // /mnt/sdcard/siebenreader
 
 	// create folder "siebenreader" on sd card

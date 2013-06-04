@@ -12,7 +12,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -32,21 +34,22 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
 
         <Button
             android:id="@+id/firstPageButton"
+            style="@style/btnStyleSandrift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/first_page" 
-            style="@style/btnStyleSandrift"/>
+            android:text="@string/first_page" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.45" >
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" >
 
             <EditText
                 android:id="@+id/pageNumberEditText"
@@ -65,35 +68,37 @@
 
         <Button
             android:id="@+id/LastPageButton"
+            style="@style/btnStyleSandrift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/last_page" 
-            style="@style/btnStyleSandrift"/>
+            android:text="@string/last_page" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="35dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+
         <Button
             android:id="@+id/homeButton"
+            style="@style/btnStyleSandrift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/menu_dashboard" 
-            style="@style/btnStyleSandrift"/>
+            android:text="@string/menu_dashboard" />
 
         <kz.adebiet.util.AdebietDigitalClock
             android:id="@+id/menuDigitalClock"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/settingButton"
+            style="@style/btnStyleSandrift"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dashboard_setting" 
-            style="@style/btnStyleSandrift"/>
+            android:text="@string/dashboard_setting" />
     </LinearLayout>
 
 </LinearLayout>
